@@ -3,9 +3,10 @@ class SlacksController < ApplicationController
 
   def create
     p params
+    return render json: {
+    }, status: 400 if params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
 
     render json: {
-      message: 'hoge'
-    }
+    }, status: 200
   end
 end
