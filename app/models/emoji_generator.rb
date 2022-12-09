@@ -1,13 +1,13 @@
 require 'rmagick'
 
 class EmojiGenerator
-  FONT = 'app/assets/fonts/HackGen35ConsoleNF-Regular.ttf'
+  FONT = 'app/assets/fonts/HackGen35ConsoleNFJ-Bold.ttf'
   IMAGE_SIZE = 100
 
   def self.generate_emoji(text, options)
     canvas = Magick::ImageList.new
     canvas.new_image(IMAGE_SIZE, IMAGE_SIZE) do |c|
-      c.background_color = options[:background_color] || 'Transparent'
+      c.background_color = options[:background] || 'Transparent'
     end
     text = insert_new_line(text)
     drawing = Magick::Draw.new
@@ -16,8 +16,8 @@ class EmojiGenerator
     drawing.gravity = Magick::CenterGravity
 
     drawing.annotate(canvas, 0, 0, 0, 0, text) do |drawing|
-      drawing.fill = 'red'
-      # drawing.stroke = 'black'
+      drawing.fill = options[:color] || 'black'
+      drawing.stroke = options[:border] || 'Transparent'
     end
 
     canvas.write('tmp/test.png')
