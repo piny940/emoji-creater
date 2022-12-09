@@ -9,18 +9,18 @@ class EmojiGenerator
     canvas.new_image(IMAGE_SIZE, IMAGE_SIZE) do |c|
       c.background_color = options[:background_color] || 'Transparent'
     end
+    text = insert_new_line(text)
     drawing = Magick::Draw.new
     drawing.font = FONT
-    drawing.pointsize = 30
+    drawing.pointsize = point_size(text)
     drawing.gravity = Magick::CenterGravity
 
-    drawing.annotate(canvas, 0, 0, 0, 0, "Yes") do |drawing|
+    drawing.annotate(canvas, 0, 0, 0, 0, text) do |drawing|
       drawing.fill = 'red'
       # drawing.stroke = 'black'
     end
 
     canvas.write('tmp/test.png')
-    exit
   end
 
   def self.insert_new_line(text)
@@ -66,14 +66,6 @@ class EmojiGenerator
 
   INITIAL_POINT_SIZE = 50
   def self.point_size(text)
-    # if text.length == 1
-    #   return 90
-    # elsif text.length == 2 || text.length == 4
-    #   return 45
-    # elsif text.length == 3
-    #   return 30
-    # end
-
     tmp_image = Magick::ImageList.new
     tmp_image.new_image(IMAGE_SIZE, IMAGE_SIZE)
     drawing = Magick::Draw.new
