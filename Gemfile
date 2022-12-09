@@ -74,3 +74,4 @@ end
 gem 'rack-cors'
 gem 'dotenv-rails'
 gem 'rmagick'
+gem 'slack-ruby-client'
