@@ -3,7 +3,7 @@ require 'rmagick'
 class EmojiGenerator
   FONT = 'app/assets/fonts/mplus-2p-medium.otf'
   IMAGE_SIZE = 100
-  INTERLINE_SPACING = -4
+  INTERLINE_SPACING = -6
 
   def self.generate_emoji(text, options)
     canvas = Magick::ImageList.new
