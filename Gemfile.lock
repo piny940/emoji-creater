@@ -240,6 +240,7 @@ DEPENDENCIES
   capybara
   debug
   dotenv-rails
+  faraday
   importmap-rails
   jbuilder
   pg (~> 1.1)

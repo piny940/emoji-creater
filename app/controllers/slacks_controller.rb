@@ -3,7 +3,6 @@ class SlacksController < ApplicationController
 
   def create
     slack_params = params[:slack]
-    p slack_params
     return render json: {
     }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
 
@@ -11,14 +10,33 @@ class SlacksController < ApplicationController
     }, status: 200 if slack_params[:event][:bot_id].present?
 
     text = slack_params[:event][:text]
-    client = Slack::Web::Client.new
-    client.chat_postMessage(
-      channel: slack_params[:event][:channel],
-      text: 'テスト',
-      as_user: true
-    )
 
-    render json: {
-    }, status: 200
+    return render json: {
+    }, status: 200 unless /^絵文字召喚[ ]+[\s\S]+/.match(text)
+
+    client = Slack::Web::Client.new
+
+    begin
+      if /^絵文字召喚[ ]+[\s\S]+/.match(text)
+        moji = text.gsub(/^絵文字召喚[ ]+/, '')
+        EmojiGenerator.generate_emoji(moji, {background: 'white'})
+      end
+    rescue => error
+      client.chat_postMessage(
+        channel: slack_params[:event][:channel],
+        text: error.message,
+        as_user: true
+      )
+    else
+      client.files_upload(
+        channels: slack_params[:event][:channel],
+        as_user: true,
+        file: Faraday::UploadIO.new('tmp/emoji.png', 'image/png'),
+        title: 'emoji',
+        filename: 'emoji.png',
+      )
+    ensure
+      return render json: {}, status: 200
+    end
   end
 end
