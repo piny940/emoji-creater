@@ -20,7 +20,7 @@ class EmojiGenerator
       drawing.stroke = options[:border] || 'Transparent'
     end
 
-    canvas.write('tmp/test.png')
+    canvas.write('tmp/emoji.png')
   end
 
   def self.insert_new_line(text)
