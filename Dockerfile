@@ -55,6 +55,7 @@ ENV BUILD_PACKAGES ${BUILD_PACKAGES}
 RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
+    apt-get install -y libmagickwand-dev && \
     apt-get install --no-install-recommends -y ${BUILD_PACKAGES} \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -79,6 +80,7 @@ ENV DEPLOY_PACKAGES=${DEPLOY_PACKAGES}
 RUN --mount=type=cache,id=prod-apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=prod-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
+    apt-get install -y libmagickwand-dev && \
     apt-get install --no-install-recommends -y \
     ${DEPLOY_PACKAGES} \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
