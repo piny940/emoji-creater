@@ -25,9 +25,9 @@ class SlacksController < ApplicationController
         EmojiGenerator.generate_emoji(moji, { border: 'white' })
       elsif /^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+[\s\S]+/.match(text)
         moji = text.gsub(/^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+/, '')
-        background = text.slice(/background=[\S]+/).gsub(/background=/, '')
-        border = text.slice(/border=[\S]+/).gsub(/border=/, '')
-        color = text.slice(/color=[\S]+/).gsub(/color=/, '')
+        background = text.slice(/background=[\S]+/)&.gsub(/background=/, '')
+        border = text.slice(/border=[\S]+/)&.gsub(/border=/, '')
+        color = text.slice(/color=[\S]+/)&.gsub(/color=/, '')
         EmojiGenerator.generate_emoji(moji, {
           background: background,
           border: border,
@@ -46,6 +46,7 @@ class SlacksController < ApplicationController
     else
       client.files_upload(
         channels: slack_params[:event][:channel],
+        # channels: 'C04F7HBQ2QG',
         as_user: true,
         file: Faraday::UploadIO.new('tmp/emoji.png', 'image/png'),
         title: 'emoji',
