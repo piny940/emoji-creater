@@ -3,8 +3,8 @@ class SlacksController < ApplicationController
 
   def create
     slack_params = params[:slack]
-    return render json: {
-    }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
+    # return render json: {
+    # }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
 
     return render json: {
     }, status: 200 if slack_params[:event][:bot_id].present?
@@ -23,6 +23,16 @@ class SlacksController < ApplicationController
       elsif /^絵文字召喚[ ]+black[ ]+[\s\S]/.match(text)
         moji = text.gsub(/^絵文字召喚[ ]+black[ ]+/, '')
         EmojiGenerator.generate_emoji(moji, { border: 'white' })
+      elsif /^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+[\s\S]+/.match(text)
+        moji = text.gsub(/^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+/, '')
+        background = text.slice(/background=[\S]+/).gsub(/background=/, '')
+        border = text.slice(/border=[\S]+/).gsub(/border=/, '')
+        color = text.slice(/color=[\S]+/).gsub(/color=/, '')
+        EmojiGenerator.generate_emoji(moji, {
+          background: background,
+          border: border,
+          color: color
+        })
       elsif /^絵文字召喚[ ]+[\s\S]+/.match(text)
         moji = text.gsub(/^絵文字召喚[ ]+/, '')
         EmojiGenerator.generate_emoji(moji, { background: 'white' })
