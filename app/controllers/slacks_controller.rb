@@ -17,9 +17,15 @@ class SlacksController < ApplicationController
     client = Slack::Web::Client.new
 
     begin
-      if /^絵文字召喚[ ]+[\s\S]+/.match(text)
+      if /^絵文字召喚[ ]+pink[ ]+[\s\S]/.match(text)
+        moji = text.gsub(/^絵文字召喚[ ]+pink[ ]+/, '')
+        EmojiGenerator.generate_emoji(moji, { color: '#ff96d6' }) # Pink
+      elsif /^絵文字召喚[ ]+black[ ]+[\s\S]/.match(text)
+        moji = text.gsub(/^絵文字召喚[ ]+black[ ]+/, '')
+        EmojiGenerator.generate_emoji(moji, { border: 'white' })
+      elsif /^絵文字召喚[ ]+[\s\S]+/.match(text)
         moji = text.gsub(/^絵文字召喚[ ]+/, '')
-        EmojiGenerator.generate_emoji(moji, {background: 'white'})
+        EmojiGenerator.generate_emoji(moji, { background: 'white' })
       end
     rescue => error
       client.chat_postMessage(
