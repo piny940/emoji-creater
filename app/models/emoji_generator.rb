@@ -2,7 +2,7 @@ require 'rmagick'
 
 class EmojiGenerator
   FONT = 'app/assets/fonts/HackGen35ConsoleNFJ-Bold.ttf'
-  IMAGE_SIZE = 100
+  IMAGE_SIZE = 200
 
   def self.generate_emoji(text, options)
     canvas = Magick::ImageList.new
