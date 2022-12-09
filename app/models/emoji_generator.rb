@@ -2,7 +2,8 @@ require 'rmagick'
 
 class EmojiGenerator
   FONT = 'app/assets/fonts/mplus-2p-medium.otf'
-  IMAGE_SIZE = 200
+  IMAGE_SIZE = 100
+  INTERLINE_SPACING = -4
 
   def self.generate_emoji(text, options)
     canvas = Magick::ImageList.new
@@ -14,6 +15,7 @@ class EmojiGenerator
     drawing.font = FONT
     drawing.pointsize = point_size(text)
     drawing.gravity = Magick::CenterGravity
+    drawing.interline_spacing = INTERLINE_SPACING
 
     drawing.annotate(canvas, 0, 0, 0, 0, text) do |drawing|
       drawing.fill = options[:color] || 'black'
@@ -69,13 +71,19 @@ class EmojiGenerator
     tmp_image = Magick::ImageList.new
     tmp_image.new_image(IMAGE_SIZE, IMAGE_SIZE)
     drawing = Magick::Draw.new
+    drawing.interline_spacing = INTERLINE_SPACING
+
     drawing.annotate(tmp_image, 0, 0, 0, 0, text) do |txt|
       txt.gravity = Magick::CenterGravity
       txt.pointsize = INITIAL_POINT_SIZE
       txt.fill = "#ffffff"
       txt.font = FONT
     end
+
     metrics = drawing.get_multiline_type_metrics(tmp_image, text)
-    (INITIAL_POINT_SIZE * (IMAGE_SIZE - 10) / metrics.width).floor
+    [
+      (INITIAL_POINT_SIZE * (IMAGE_SIZE - 10) / metrics.width).floor,
+      (INITIAL_POINT_SIZE * IMAGE_SIZE / metrics.height).floor
+    ].min
   end
 end
