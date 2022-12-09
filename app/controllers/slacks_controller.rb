@@ -3,8 +3,8 @@ class SlacksController < ApplicationController
 
   def create
     slack_params = params[:slack]
-    # return render json: {
-    # }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
+    return render json: {
+    }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
 
     return render json: {
     }, status: 200 if slack_params[:event][:bot_id].present?

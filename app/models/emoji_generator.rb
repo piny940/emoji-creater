@@ -1,7 +1,7 @@
 require 'rmagick'
 
 class EmojiGenerator
-  FONT = 'app/assets/fonts/HackGen35ConsoleNFJ-Bold.ttf'
+  FONT = 'app/assets/fonts/mplus-2p-medium.otf'
   IMAGE_SIZE = 200
 
   def self.generate_emoji(text, options)
