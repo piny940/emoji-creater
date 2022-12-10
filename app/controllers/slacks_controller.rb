@@ -3,8 +3,8 @@ class SlacksController < ApplicationController
 
   def create
     slack_params = params[:slack]
-    return render json: {
-    }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
+    # return render json: {
+    # }, status: 400 if slack_params[:token] != ENV['SLACK_VERIFICATION_TOKEN']
 
     return render json: {
     }, status: 200 if slack_params[:event][:bot_id].present?
@@ -27,8 +27,9 @@ class SlacksController < ApplicationController
     else
       response = GyazoHandler.upload('tmp/emoji.png')
       client.chat_postMessage(
-        channel: slack_params[:event][:channel],
-        # channel: 'D04DXDEMW4W',
+        # channel: slack_params[:event][:channel],
+        # channel: 'D04DXDEMW4W', # DM
+        # channel: 'C04F7HBQ2QG', # mikan-test
         text: response[:url],
         as_user: true
       )
