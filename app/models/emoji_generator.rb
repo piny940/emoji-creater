@@ -2,8 +2,8 @@ require 'rmagick'
 
 class EmojiGenerator
   FONT = 'app/assets/fonts/mplus-2p-medium.otf'
-  IMAGE_SIZE = 200
-  INTERLINE_SPACING = -8
+  IMAGE_SIZE = 128
+  INTERLINE_SPACING = -6
 
   def self.handle_command(command)
     if /^絵文字召喚[ ]+pink[ ]+[\s\S]+/.match(command)
