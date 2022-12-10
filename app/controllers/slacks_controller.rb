@@ -28,7 +28,8 @@ class SlacksController < ApplicationController
       response = GyazoHandler.upload('tmp/emoji.png')
       client.chat_postMessage(
         channel: slack_params[:event][:channel],
-        # channel: 'D04DXDEMW4W',
+        # channel: 'D04DXDEMW4W', # DM
+        # chennel: 'C04F7HBQ2QG', # mikan-test
         text: response[:url],
         as_user: true
       )
