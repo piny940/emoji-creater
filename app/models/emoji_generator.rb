@@ -35,14 +35,14 @@ class EmojiGenerator
     end
     text = insert_new_line(text)
     drawing = Magick::Draw.new
-    drawing.font = FONT
-    drawing.pointsize = point_size(text)
-    drawing.gravity = Magick::CenterGravity
-    drawing.interline_spacing = INTERLINE_SPACING
 
-    drawing.annotate(canvas, 0, 0, 0, 0, text) do |drawing|
-      drawing.fill = options[:color] || 'black'
-      drawing.stroke = options[:border] || 'Transparent'
+    drawing.annotate(canvas, 0, 0, 0, 0, text) do |txt|
+      txt.fill = options[:color] || 'black'
+      txt.stroke = options[:border] || 'Transparent'
+      txt.font = FONT
+      txt.pointsize = point_size(text)
+      txt.gravity = Magick::CenterGravity
+      txt.interline_spacing = INTERLINE_SPACING
     end
 
     canvas.write('tmp/emoji.png')
@@ -94,13 +94,13 @@ class EmojiGenerator
     tmp_image = Magick::ImageList.new
     tmp_image.new_image(IMAGE_SIZE, IMAGE_SIZE)
     drawing = Magick::Draw.new
-    drawing.interline_spacing = INTERLINE_SPACING
 
     drawing.annotate(tmp_image, 0, 0, 0, 0, text) do |txt|
       txt.gravity = Magick::CenterGravity
       txt.pointsize = INITIAL_POINT_SIZE
       txt.fill = "#ffffff"
       txt.font = FONT
+      txt.interline_spacing = INTERLINE_SPACING
     end
 
     metrics = drawing.get_multiline_type_metrics(tmp_image, text)
