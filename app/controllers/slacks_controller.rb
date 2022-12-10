@@ -25,13 +25,12 @@ class SlacksController < ApplicationController
         as_user: true
       )
     else
-      client.files_upload(
-        channels: slack_params[:event][:channel],
-        # channels: 'D04DXDEMW4W',
-        as_user: true,
-        file: Faraday::UploadIO.new('tmp/emoji.png', 'image/png'),
-        title: 'emoji',
-        filename: 'emoji.png',
+      response = GyazoHandler.upload('tmp/emoji.png')
+      client.chat_postMessage(
+        channel: slack_params[:event][:channel],
+        # channel: 'D04DXDEMW4W',
+        text: response[:url],
+        as_user: true
       )
     ensure
       return render json: {}, status: 200
