@@ -2,7 +2,7 @@ require 'rmagick'
 
 class EmojiGenerator
   FONT = 'app/assets/fonts/mplus-2p-medium.otf'
-  IMAGE_SIZE = 200
+  IMAGE_SIZE = 128
   INTERLINE_SPACING = -8
 
   def self.handle_command(command)
