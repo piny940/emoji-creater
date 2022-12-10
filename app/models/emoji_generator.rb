@@ -5,6 +5,29 @@ class EmojiGenerator
   IMAGE_SIZE = 100
   INTERLINE_SPACING = -6
 
+  def self.handle_command(command)
+    if /^絵文字召喚[ ]+pink[ ]+[\s\S]+/.match(command)
+      moji = command.gsub(/^絵文字召喚[ ]+pink[ ]+/, '')
+      generate_emoji(moji, { color: '#ff96d6' }) # Pink
+    elsif /^絵文字召喚[ ]+black[ ]+[\s\S]+/.match(command)
+      moji = command.gsub(/^絵文字召喚[ ]+black[ ]+/, '')
+      generate_emoji(moji, { border: 'white' })
+    elsif /^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+[\s\S]+/.match(command)
+      moji = command.gsub(/^絵文字召喚[ ]+((background=[\S]+|color=[\S]+|border=[\S]+)[ ]+)+/, '')
+      background = command.slice(/background=[\S]+/)&.gsub(/background=/, '')
+      border = command.slice(/border=[\S]+/)&.gsub(/border=/, '')
+      color = command.slice(/color=[\S]+/)&.gsub(/color=/, '')
+      generate_emoji(moji, {
+        background: background,
+        border: border,
+        color: color
+      })
+    elsif /^絵文字召喚[ ]+[\s\S]+/.match(command)
+      moji = command.gsub(/^絵文字召喚[ ]+/, '')
+      generate_emoji(moji, { background: 'white' })
+    end
+  end
+
   def self.generate_emoji(text, options)
     canvas = Magick::ImageList.new
     canvas.new_image(IMAGE_SIZE, IMAGE_SIZE) do |c|
