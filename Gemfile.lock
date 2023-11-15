@@ -172,7 +172,7 @@ GEM
     psych (5.1.1.1)
       stringio
     public_suffix (5.0.3)
-    puma (5.6.5)
+    puma (5.6.7)
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (2.2.8)
@@ -283,7 +283,7 @@ DEPENDENCIES
   gyazo
   importmap-rails
   jbuilder
-  puma (~> 5.0)
+  puma (~> 5.6)
   rack-cors
   rails (~> 7.1.2)
   rmagick
